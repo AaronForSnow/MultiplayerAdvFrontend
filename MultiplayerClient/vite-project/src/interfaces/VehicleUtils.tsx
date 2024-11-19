@@ -7,7 +7,7 @@ export const VehicleUtils: FC<PlayerVehicle> = (vehicle: PlayerVehicle) => (
     <div
         style={{
             position: "fixed",
-            rotate: `${vehicle.rotation}deg`,
+            rotate: `${vehicle.angle}deg`,
             fill: "#999999",
             width: `80px`,
             height: `80px`,
