@@ -1,7 +1,6 @@
-// import { useEffect, useState } from "react";
 import { useVehicleContext } from "./GameServerContext";
 import { VehicleUtils } from "./interfaces/VehicleUtils";
-// import { PlayerVehicle } from "./interfaces/PlayerVehicle";
+import PlayerControls from "./PlayerControls";
 
 
 function App() {
@@ -14,6 +13,7 @@ function App() {
   return (
     <>
       <VehicleUtils id={vehicle.id} xPos={vehicle.xPos} yPos={vehicle.yPos} angle={vehicle.angle} speed={vehicle.speed} turnLeft={vehicle.turnLeft} turnRight={vehicle.turnRight} moveForward={vehicle.moveForward} moveBackward={vehicle.moveBackward} />
+      <PlayerControls/>
     </>
   );
 }

@@ -1,6 +1,6 @@
 import { FC } from "react"
-import { PlayerVehicle } from "./PlayerVehicle"
 import RocketIcon from "../assets/rocket.svg";
+import { PlayerVehicle } from "./PlayerVehicle";
 
 export const VehicleUtils: FC<PlayerVehicle> = (vehicle: PlayerVehicle) => (
 

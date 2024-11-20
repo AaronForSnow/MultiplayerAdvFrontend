@@ -41,6 +41,16 @@ export const GameServerContextProvider: FC<{ children: ReactNode }> = ({
             ...prevVehicle,
             moveBackward: false,
           };
+        case "stopLeft":
+          return {
+            ...prevVehicle,
+            turnLeft: false,
+          };
+        case "stopRight":
+          return {
+            ...prevVehicle,
+            turnRight: false,
+          };
         default:
           return prevVehicle;
       }
@@ -49,11 +59,10 @@ export const GameServerContextProvider: FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     if (!vehicle) return;
-  
+
     const intervalId = setInterval(() => {
-      setVehicle(updateVehicle(vehicle));  // Update the vehicle at 100ms intervals
-    }, 100);  
-  console.log("here");
+      setVehicle(updateVehicle(vehicle));
+    }, 100);
     return () => {
       clearInterval(intervalId);
     };
@@ -70,8 +79,8 @@ export const GameServerContextProvider: FC<{ children: ReactNode }> = ({
       turnRight: false,
       moveForward: false,
       moveBackward: false,
-    })
-  }, [])
+    });
+  }, []);
 
   return (
     <GameServerContextContext.Provider

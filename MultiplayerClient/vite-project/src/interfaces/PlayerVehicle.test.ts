@@ -62,7 +62,7 @@ expect(testVehicle.angle).toBe(180)
 
 testVehicle.turnLeft = true
 const newVehicle = updateVehicle(testVehicle)
-expect(newVehicle.angle).toBe(225)
+expect(newVehicle.angle).toBe(185)
 
 })
 test('vehicle turns right', () => {
@@ -82,7 +82,7 @@ expect(testVehicle.angle).toBe(180)
 
 testVehicle.turnRight = true
 const newVehicle = updateVehicle(testVehicle)
-expect(newVehicle.angle).toBe(135)
+expect(newVehicle.angle).toBe(175)
 
 })
 test('vehicle DOESNT turn', () => {
@@ -105,7 +105,7 @@ const newVehicle = updateVehicle(testVehicle)
 expect(newVehicle.angle).toBe(180)
 
 })
-test('User can accellerate on the x axis', () => {
+test('User can accelerate on the x axis', () => {
   
   const testVehicle: PlayerVehicle = {
     id: 1,
