@@ -1,13 +1,19 @@
 // import { useEffect, useState } from "react";
+import { useVehicleContext } from "./GameServerContext";
 import { VehicleUtils } from "./interfaces/VehicleUtils";
 // import { PlayerVehicle } from "./interfaces/PlayerVehicle";
 
 
 function App() {
-  // const [vehicle, setVehicle] = useState<PlayerVehicle>();
+  const {vehicle} = useVehicleContext();
+
+  if (!vehicle) {
+    return <div>Loading vehicle data...</div>;
+  }
+
   return (
     <>
-      <VehicleUtils id={1} xPos={20} yPos={20} speed={0} angle={45} turnLeft={false} turnRight={false} moveForward={false} moveBackward={false} />
+      <VehicleUtils id={vehicle.id} xPos={vehicle.xPos} yPos={vehicle.yPos} angle={vehicle.angle} speed={vehicle.speed} turnLeft={vehicle.turnLeft} turnRight={vehicle.turnRight} moveForward={vehicle.moveForward} moveBackward={vehicle.moveBackward} />
     </>
   );
 }
