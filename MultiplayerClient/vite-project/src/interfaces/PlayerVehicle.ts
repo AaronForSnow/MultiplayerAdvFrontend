@@ -13,13 +13,19 @@ export interface PlayerVehicle {
 }
 
 export const updateVehicle = (vehicle: PlayerVehicle) => {
-  if (vehicle.moveForward) {
-    vehicle.speed += 1;
+  if (vehicle.moveForward && vehicle.speed < 50) {
+    vehicle.speed += 10;
     vehicle.moveForward = false;
-  }
-  if (vehicle.moveBackward) {
-    vehicle.speed -= 1;
+  } else if (vehicle.moveBackward && vehicle.speed > -50) {
+    vehicle.speed -= 10;
     vehicle.moveBackward = false;
+  } else if (!vehicle.moveBackward && !vehicle.moveForward) {
+    if (vehicle.speed > 0) {
+      vehicle.speed -= 10;
+    }
+    if (vehicle.speed < 0) {
+      vehicle.speed += 10;
+    }
   }
   if (vehicle.turnLeft) {
     vehicle.angle += 45;
