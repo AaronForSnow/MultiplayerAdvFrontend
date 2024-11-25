@@ -39,8 +39,8 @@ export const GameServerContextProvider: FC<{ children: ReactNode }> = ({
   ]);
 
   const setVehicleFlags = (flags: VehicleFlags) => {
-    setVehicles((prevVehicles) => 
-     prevVehicles.map((vehicle) => {
+    setVehicles((prevVehicles) =>
+      prevVehicles.map((vehicle) => {
         if (vehicle.id === flags.id) {
           switch (flags.vehicleAction) {
             case "moveForward":
@@ -85,9 +85,10 @@ export const GameServerContextProvider: FC<{ children: ReactNode }> = ({
               };
             default:
               return vehicle;
-            }
           }
+        } else {
           return vehicle;
+        }
       })
     );
   };
@@ -97,10 +98,10 @@ export const GameServerContextProvider: FC<{ children: ReactNode }> = ({
       setVehicles((prevVehicles) =>
         prevVehicles.map((vehicle) => {
           updateVehicle(vehicle);
-          return vehicle; // Ensure you return the updated vehicle
+          return vehicle; 
         })
       );
-    }, 10);
+    }, 1);
 
     return () => {
       clearInterval(intervalId);

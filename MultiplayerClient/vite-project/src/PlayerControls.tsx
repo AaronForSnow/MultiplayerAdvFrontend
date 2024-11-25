@@ -1,8 +1,9 @@
 import React, { useEffect, useContext } from "react";
 import { GameServerContextContext } from "./GameServerContext";
+import { PlayerVehicle } from "./interfaces/PlayerVehicle";
 
-const PlayerControls: React.FC = () => {
-  const { setVehicleFlags, vehicles } = useContext(GameServerContextContext);
+const PlayerControls: React.FC<{vehicle: PlayerVehicle}> = ({vehicle}) => {
+  const { setVehicleFlags } = useContext(GameServerContextContext);
 
   const handleKeyDown = (
     event: KeyboardEvent,
@@ -12,7 +13,7 @@ const PlayerControls: React.FC = () => {
     right: string
   ) => {
     {
-      vehicles.map((vehicle) => {
+      
         switch (event.key.toLowerCase()) {
           case forward:
             setVehicleFlags({ id: vehicle.id, vehicleAction: "moveForward" });
@@ -27,7 +28,7 @@ const PlayerControls: React.FC = () => {
             setVehicleFlags({ id: vehicle.id, vehicleAction: "turnRight" });
             break;
         }
-      });
+      
     }
   };
 
@@ -48,14 +49,18 @@ const PlayerControls: React.FC = () => {
   //   }
   // };
 
+  
+
   useEffect(() => {
-    window.addEventListener("keydown", (event) =>
-      handleKeyDown(event, "w", "s", "a", "d")
+
+    const myEvent =  (event: KeyboardEvent) =>
+      handleKeyDown(event, vehicle.forwardKey, vehicle.backwardKey, vehicle.leftKey, vehicle.rightKey)
+
+    window.addEventListener("keydown", myEvent
     );
 
     return () => {
-      window.removeEventListener("keydown", (event) =>
-        handleKeyDown(event, "w", "s", "a", "d")
+      window.removeEventListener("keydown", myEvent
       );
     };
   }, []);

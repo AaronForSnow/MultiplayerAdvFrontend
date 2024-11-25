@@ -1,3 +1,4 @@
+import { Fragment } from "react/jsx-runtime";
 import { useVehicleContext } from "./GameServerContext";
 import { VehicleUtils } from "./interfaces/VehicleUtils";
 import PlayerControls from "./PlayerControls";
@@ -12,8 +13,9 @@ function App() {
   return (
     <>
       {vehicles.map((vehicle) => (
+        <Fragment key={vehicle.id}>
+        
         <VehicleUtils
-          key={vehicle.id}
           id={vehicle.id}
           xPos={vehicle.xPos}
           yPos={vehicle.yPos}
@@ -28,8 +30,9 @@ function App() {
           leftKey={vehicle.leftKey}
           rightKey={vehicle.rightKey}
         />
+      <PlayerControls vehicle={vehicle}/>
+      </Fragment>
       ))}
-      <PlayerControls />
     </>
   );
 }
