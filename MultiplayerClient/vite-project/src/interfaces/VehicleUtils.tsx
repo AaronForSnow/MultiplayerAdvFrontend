@@ -15,6 +15,6 @@ export const VehicleUtils: FC<PlayerVehicle> = (vehicle: PlayerVehicle) => (
             left: `${vehicle.yPos}px`,
         }}
     >
-        <img src={RocketIcon}></img>
+        <img src={RocketIcon} style={{rotate: '270deg'}}></img>
     </div>
 ) 

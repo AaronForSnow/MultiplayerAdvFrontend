@@ -8,13 +8,19 @@ export interface PlayerVehicle {
   turnRight: boolean;
   moveForward: boolean;
   moveBackward: boolean;
+  forwardKey:  string;
+  backwardKey:  string;
+  leftKey:  string;
+  rightKey: string;
 }
 
 export const updateVehicle = (vehicle: PlayerVehicle) => {
   if (vehicle.moveForward && vehicle.speed < 50) {
     vehicle.speed -= 10;
+    vehicle.moveForward = false;
   } else if (vehicle.moveBackward && vehicle.speed > -50) {
     vehicle.speed += 10;
+    vehicle.moveBackward = false;
   } else if (!vehicle.moveBackward && !vehicle.moveForward) {
     if (vehicle.speed > 0) {
       vehicle.speed -= 10;
@@ -24,10 +30,12 @@ export const updateVehicle = (vehicle: PlayerVehicle) => {
     }
   }
   if (vehicle.turnLeft) {
-    vehicle.angle -= 45;
+    vehicle.angle -= 5;
+    vehicle.turnLeft = false;
   }
   if (vehicle.turnRight) {
-    vehicle.angle += 45;
+    vehicle.angle += 5;
+    vehicle.turnRight = false;
   }
 
   const pi = Math.PI;

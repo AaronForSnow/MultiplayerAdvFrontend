@@ -15,12 +15,12 @@ export interface VehicleFlags {
 }
 
 export interface VehicleContextInterface {
-  vehicle: PlayerVehicle;
+  vehicles: PlayerVehicle[];
   setVehicleFlags: (setVehicleFlags: VehicleFlags) => void;
 }
 
 export const GameServerContextContext = createContext<VehicleContextInterface>({
-  vehicle: {
+  vehicles: [{
     id: 1,
     xPos: 200,
     yPos: 200,
@@ -30,7 +30,24 @@ export const GameServerContextContext = createContext<VehicleContextInterface>({
     turnRight: false,
     moveForward: false,
     moveBackward: false,
-  },
+    forwardKey: 'w',
+    backwardKey: 's',
+    leftKey: 'a',
+    rightKey: 'd'
+  },{id: 2,
+    xPos: 300,
+    yPos: 200,
+    angle: 0,
+    speed: 0,
+    turnLeft: false,
+    turnRight: false,
+    moveForward: false,
+    moveBackward: false,
+    forwardKey: 'u',
+    backwardKey: 'j',
+    leftKey: 'h',
+    rightKey: 'k'
+  }],
   setVehicleFlags: () => {},
 });
 
