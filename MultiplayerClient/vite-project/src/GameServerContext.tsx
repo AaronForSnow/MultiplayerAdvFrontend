@@ -3,6 +3,7 @@ import { PlayerVehicle } from "./interfaces/PlayerVehicle";
 
 export interface VehicleFlags {
   id: number;
+  type: "vehicleFlags"
   vehicleAction:
     | "moveForward" // 'w' pressed
     | "moveBackward" // 's' pressed
@@ -16,39 +17,18 @@ export interface VehicleFlags {
 
 export interface VehicleContextInterface {
   vehicles: PlayerVehicle[];
+  isServer: boolean;
+  setIsServer: (statement: boolean) => void;
   setVehicleFlags: (setVehicleFlags: VehicleFlags) => void;
+  sendMessage: (event: MessageEvent<PlayerVehicle[]>) => void;
 }
 
 export const GameServerContextContext = createContext<VehicleContextInterface>({
-  vehicles: [{
-    id: 1,
-    xPos: 200,
-    yPos: 200,
-    angle: 0,
-    speed: 0,
-    turnLeft: false,
-    turnRight: false,
-    moveForward: false,
-    moveBackward: false,
-    forwardKey: 'w',
-    backwardKey: 's',
-    leftKey: 'a',
-    rightKey: 'd'
-  },{id: 2,
-    xPos: 300,
-    yPos: 200,
-    angle: 0,
-    speed: 0,
-    turnLeft: false,
-    turnRight: false,
-    moveForward: false,
-    moveBackward: false,
-    forwardKey: 'u',
-    backwardKey: 'j',
-    leftKey: 'h',
-    rightKey: 'k'
-  }],
+  vehicles: [],
+  isServer: false,
+  setIsServer: () => {},
   setVehicleFlags: () => {},
+  sendMessage: () => {}
 });
 
 export const useVehicleContext = () => {
