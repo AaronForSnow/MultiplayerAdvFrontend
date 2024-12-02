@@ -15,8 +15,13 @@ export interface VehicleFlags {
     | "stopRight";
 }
 
-export interface VehicleContextInterface {
+export interface VehiclesWithType{
   vehicles: PlayerVehicle[];
+  type: "PlayerVehicles"
+}
+
+export interface VehicleContextInterface {
+  vehicles: VehiclesWithType,
   isServer: boolean;
   setIsServer: (statement: boolean) => void;
   setVehicleFlags: (setVehicleFlags: VehicleFlags) => void;
@@ -24,7 +29,7 @@ export interface VehicleContextInterface {
 }
 
 export const GameServerContextContext = createContext<VehicleContextInterface>({
-  vehicles: [],
+  vehicles: {vehicles:[], type:"PlayerVehicles"},
   isServer: false,
   setIsServer: () => {},
   setVehicleFlags: () => {},

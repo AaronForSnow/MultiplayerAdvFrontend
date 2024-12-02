@@ -16,16 +16,16 @@ const PlayerControls: React.FC<{vehicle: PlayerVehicle}> = ({vehicle}) => {
       
         switch (event.key.toLowerCase()) {
           case forward:
-            setVehicleFlags({ id: vehicle.id, vehicleAction: "moveForward" });
+            setVehicleFlags({ id: vehicle.id, vehicleAction: "moveForward", type: "vehicleFlags" });
             break;
           case left:
-            setVehicleFlags({ id: vehicle.id, vehicleAction: "turnLeft" });
+            setVehicleFlags({ id: vehicle.id, vehicleAction: "turnLeft", type: "vehicleFlags" });
             break;
           case backward:
-            setVehicleFlags({ id: vehicle.id, vehicleAction: "moveBackward" });
+            setVehicleFlags({ id: vehicle.id, vehicleAction: "moveBackward" , type: "vehicleFlags"});
             break;
           case right:
-            setVehicleFlags({ id: vehicle.id, vehicleAction: "turnRight" });
+            setVehicleFlags({ id: vehicle.id, vehicleAction: "turnRight", type: "vehicleFlags" });
             break;
         }
       

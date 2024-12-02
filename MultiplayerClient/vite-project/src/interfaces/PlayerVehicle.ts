@@ -1,6 +1,5 @@
 export interface PlayerVehicle {
   id: number;
-  type: string;
   xPos: number;
   yPos: number;
   angle: number;

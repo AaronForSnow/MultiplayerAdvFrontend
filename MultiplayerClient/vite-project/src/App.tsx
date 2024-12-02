@@ -12,11 +12,10 @@ function App() {
 
   return (
     <>
-      {vehicles.map((vehicle) => (
+      {vehicles.vehicles.map((vehicle) => (
         <Fragment key={vehicle.id}>
           <VehicleUtils
             id={vehicle.id}
-            type= "playerVehicle"
             xPos={vehicle.xPos}
             yPos={vehicle.yPos}
             angle={vehicle.angle}
