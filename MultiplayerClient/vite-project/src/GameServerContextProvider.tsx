@@ -1,6 +1,6 @@
 import { FC, ReactNode, useEffect, useState } from "react";
 import {
-  GameServerContextContext,
+  GameServerContext,
   VehicleFlags,
   VehiclesWithType,
 } from "./GameServerContext";
@@ -72,11 +72,6 @@ export const GameServerContextProvider: FC<{ children: ReactNode }> = ({
     };
   }, []);
 
-  const sendMessage = (playerVehicles: VehiclesWithType) => {
-    if (socket && socket.readyState && playerVehicles) {
-      socket.send(JSON.stringify(playerVehicles)); // Send message to server
-    }
-  };
 
   const setVehicleFlags = (flags: VehicleFlags) => {
     setVehicles((prevVehiles) => {
@@ -143,11 +138,12 @@ export const GameServerContextProvider: FC<{ children: ReactNode }> = ({
         const newList: VehiclesWithType = {
           type: "PlayerVehicles",
           vehicles: prevVehicle.vehicles.map((vehicle) => {
-            updateVehicle(vehicle);
-            return vehicle;
+            return updateVehicle(vehicle);
           }),
         };
-        sendMessage(newList);
+        if (socket && socket.readyState) {
+          socket.send(JSON.stringify(newList)); // Send message to server
+        }
         return newList;
       });
     }, 10);
@@ -155,16 +151,16 @@ export const GameServerContextProvider: FC<{ children: ReactNode }> = ({
     return () => {
       clearInterval(intervalId);
     };
-  }, [socket]);
+  }, [ socket]);
 
   return (
-    <GameServerContextContext.Provider
+    <GameServerContext.Provider
       value={{
         vehicles: vehicles,
         setVehicleFlags: setVehicleFlags,
       }}
     >
       {children}
-    </GameServerContextContext.Provider>
+    </GameServerContext.Provider>
   );
 };

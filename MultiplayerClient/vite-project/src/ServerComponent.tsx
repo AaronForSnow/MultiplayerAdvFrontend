@@ -1,6 +1,6 @@
 import { useVehicleContext } from "./GameServerContext";
 import { VehicleUtils } from "./interfaces/VehicleUtils";
-import PlayerControls from "./PlayerControls";
+import ServerPlayerControls from "./ServerPlayerControls";
 import { Fragment } from "react";
 
 const ServerComponent = () => {
@@ -25,7 +25,7 @@ const ServerComponent = () => {
             leftKey={vehicle.leftKey}
             rightKey={vehicle.rightKey}
           />
-          <PlayerControls vehicle={vehicle} />
+          <ServerPlayerControls vehicle={vehicle} />
         </Fragment>
       ))}{" "}
     </div>

@@ -1,7 +1,7 @@
-import React, { Fragment } from "react";
+import { Fragment } from "react";
 import { useVehicleContext } from "./GameClientContext";
 import { VehicleUtils } from "./interfaces/VehicleUtils";
-import PlayerControls from "./PlayerControls";
+import ClientPlayerControls from "./ClientPlayerControls";
 
 const ClientComponent = () => {
   const { vehicles } = useVehicleContext();
@@ -25,9 +25,9 @@ const ClientComponent = () => {
             leftKey={vehicle.leftKey}
             rightKey={vehicle.rightKey}
           />
-          <PlayerControls vehicle={vehicle} />
+          <ClientPlayerControls vehicle={vehicle} />
         </Fragment>
-      ))}{" "}
+      ))}
     </div>
   );
 };

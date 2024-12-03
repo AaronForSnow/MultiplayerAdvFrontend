@@ -1,6 +1,10 @@
 import { FC, ReactNode, useEffect, useState } from "react";
-import { GameClientContextContext, VehicleFlags, VehiclesWithType } from "./GameClientContext";
-import { PlayerVehicle } from "./interfaces/PlayerVehicle";
+import {
+  GameClientContextContext,
+  VehicleFlags,
+  VehiclesWithType,
+} from "./GameClientContext";
+import { parse } from "postcss";
 
 export const GameClientContextProvider: FC<{ children: ReactNode }> = ({
   children,
@@ -12,62 +16,65 @@ export const GameClientContextProvider: FC<{ children: ReactNode }> = ({
   const [socket, setSocket] = useState<WebSocket>();
 
   const setVehicleFlags = (flags: VehicleFlags) => {
-    setVehicles((prevVehicles) => {
-      const newList: VehiclesWithType = {
-        type: "PlayerVehicles",
-        vehicles: prevVehicles.vehicles.map((vehicle: PlayerVehicle) => {
-          if (vehicle.id === flags.id) {
-            switch (flags.vehicleAction) {
-              case "moveForward":
-                return {
-                  ...vehicle,
-                  moveForward: true,
-                };
-              case "moveBackward":
-                return {
-                  ...vehicle,
-                  moveBackward: true,
-                };
-              case "turnLeft":
-                return {
-                  ...vehicle,
-                  turnLeft: true,
-                };
-              case "turnRight":
-                return {
-                  ...vehicle,
-                  turnRight: true,
-                };
-              case "stopForwards":
-                return {
-                  ...vehicle,
-                  moveForward: false,
-                };
-              case "stopBackwards":
-                return {
-                  ...vehicle,
-                  moveBackward: false,
-                };
-              case "stopLeft":
-                return {
-                  ...vehicle,
-                  turnLeft: false,
-                };
-              case "stopRight":
-                return {
-                  ...vehicle,
-                  turnRight: false,
-                };
-              default:
-                return vehicle;
-            }
-          } else {
-            return vehicle;
-          }
-        }),
-      };
-      return newList;
-    });
+    if (socket && socket.readyState) {
+      socket?.send(JSON.stringify(flags));
+    }
+    // setVehicles((prevVehicles) => {
+    //   const newList: VehiclesWithType = {
+    //     type: "PlayerVehicles",
+    //     vehicles: prevVehicles.vehicles.map((vehicle: PlayerVehicle) => {
+    //       if (vehicle.id === flags.id) {
+    //         switch (flags.vehicleAction) {
+    //           case "moveForward":
+    //             return {
+    //               ...vehicle,
+    //               moveForward: true,
+    //             };
+    //           case "moveBackward":
+    //             return {
+    //               ...vehicle,
+    //               moveBackward: true,
+    //             };
+    //           case "turnLeft":
+    //             return {
+    //               ...vehicle,
+    //               turnLeft: true,
+    //             };
+    //           case "turnRight":
+    //             return {
+    //               ...vehicle,
+    //               turnRight: true,
+    //             };
+    //           case "stopForwards":
+    //             return {
+    //               ...vehicle,
+    //               moveForward: false,
+    //             };
+    //           case "stopBackwards":
+    //             return {
+    //               ...vehicle,
+    //               moveBackward: false,
+    //             };
+    //           case "stopLeft":
+    //             return {
+    //               ...vehicle,
+    //               turnLeft: false,
+    //             };
+    //           case "stopRight":
+    //             return {
+    //               ...vehicle,
+    //               turnRight: false,
+    //             };
+    //           default:
+    //             return vehicle;
+    //         }
+    //       } else {
+    //         return vehicle;
+    //       }
+    //     }),
+    //   };
+    //   return newList;
+    // });
   };
 
   useEffect(() => {
@@ -79,7 +86,10 @@ export const GameClientContextProvider: FC<{ children: ReactNode }> = ({
 
     ws.onmessage = (event) => {
       const parsedData = JSON.parse(event.data);
+      console.log("data is", parsedData)
+      if (parsedData.type === "PlayerVehicles") {
         setVehicles(parsedData);
+      }
     };
 
     ws.onclose = () => {
@@ -93,33 +103,33 @@ export const GameClientContextProvider: FC<{ children: ReactNode }> = ({
     };
   }, []);
 
-  const sendMessage = (playerVehicles: VehicleFlags) => {
-    if (socket && socket.readyState && playerVehicles) {
-      socket.send(JSON.stringify(playerVehicles)); // Send message to server
-    }
-  };
+  // const sendMessage = (playerVehicles: VehicleFlags) => {
+  //   if (socket && socket.readyState && playerVehicles) {
+  //     socket.send(JSON.stringify(playerVehicles)); // Send message to server
+  //   }
+  // };
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-        const newList: VehicleFlags = {
-            type: "vehicleFlags",
-            id: 0,
-            vehicleAction: "turnLeft"
-        };
-        sendMessage(newList);
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //       const newList: VehicleFlags = {
+  //           type: "vehicleFlags",
+  //           id: 0,
+  //           vehicleAction: "turnLeft"
+  //       };
+  //       sendMessage(newList);
 
-    }, 10);
+  //   }, 10);
 
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
+  //   return () => {
+  //     clearInterval(intervalId);
+  //   };
+  // }, []);
 
   return (
     <GameClientContextContext.Provider
       value={{
         vehicles: vehicles,
-        setVehicleFlags: setVehicleFlags
+        setVehicleFlags: setVehicleFlags,
       }}
     >
       {children}

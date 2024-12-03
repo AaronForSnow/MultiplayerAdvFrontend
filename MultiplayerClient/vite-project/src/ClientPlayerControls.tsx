@@ -1,9 +1,9 @@
 import React, { useEffect, useContext } from "react";
-import { GameServerContextContext } from "./GameServerContext";
 import { PlayerVehicle } from "./interfaces/PlayerVehicle";
+import { GameClientContextContext as GameClientContext } from "./GameClientContext";
 
-const PlayerControls: React.FC<{ vehicle: PlayerVehicle }> = ({ vehicle }) => {
-  const { setVehicleFlags } = useContext(GameServerContextContext);
+const ClientPlayerControls: React.FC<{ vehicle: PlayerVehicle }> = ({ vehicle }) => {
+  const { setVehicleFlags } = useContext(GameClientContext);
 
   const handleKeyDown = (
     event: KeyboardEvent,
@@ -65,4 +65,4 @@ const PlayerControls: React.FC<{ vehicle: PlayerVehicle }> = ({ vehicle }) => {
   return null;
 };
 
-export default PlayerControls;
+export default ClientPlayerControls;

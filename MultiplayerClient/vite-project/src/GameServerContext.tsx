@@ -3,7 +3,7 @@ import { PlayerVehicle } from "./interfaces/PlayerVehicle";
 
 export interface VehicleFlags {
   id: number;
-  type: "vehicleFlags"
+  type: "vehicleFlags";
   vehicleAction:
     | "moveForward" // 'w' pressed
     | "moveBackward" // 's' pressed
@@ -15,21 +15,21 @@ export interface VehicleFlags {
     | "stopRight";
 }
 
-export interface VehiclesWithType{
+export interface VehiclesWithType {
   vehicles: PlayerVehicle[];
-  type: "PlayerVehicles"
+  type: "PlayerVehicles";
 }
 
 export interface VehicleContextInterface {
-  vehicles: VehiclesWithType,
+  vehicles: VehiclesWithType;
   setVehicleFlags: (setVehicleFlags: VehicleFlags) => void;
 }
 
-export const GameServerContextContext = createContext<VehicleContextInterface>({
-  vehicles: {vehicles:[], type:"PlayerVehicles"},
+export const GameServerContext = createContext<VehicleContextInterface>({
+  vehicles: { vehicles: [], type: "PlayerVehicles" },
   setVehicleFlags: () => {},
 });
 
 export const useVehicleContext = () => {
-  return useContext(GameServerContextContext);
+  return useContext(GameServerContext);
 };
