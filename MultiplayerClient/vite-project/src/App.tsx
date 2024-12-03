@@ -1,37 +1,26 @@
-import { Fragment } from "react/jsx-runtime";
-import { useVehicleContext } from "./GameServerContext";
-import { VehicleUtils } from "./interfaces/VehicleUtils";
-import PlayerControls from "./PlayerControls";
+import { useState } from "react";
+import { GameServerContextProvider } from "./GameServerContextProvider";
+import { GameClientContextProvider } from "./GameClientContextProvider";
+import ServerComponent from "./ServerComponent";
+import ClientComponent from "./ClientComponent";
 
 function App() {
-  const { vehicles } = useVehicleContext();
-
-  if (!vehicles) {
-    return <div>Loading vehicle data...</div>;
-  }
+  const [isServer, setIsServer] = useState<boolean>(false);
 
   return (
     <>
-      {vehicles.vehicles.map((vehicle) => (
-        <Fragment key={vehicle.id}>
-          <VehicleUtils
-            id={vehicle.id}
-            xPos={vehicle.xPos}
-            yPos={vehicle.yPos}
-            angle={vehicle.angle}
-            speed={vehicle.speed}
-            turnLeft={vehicle.turnLeft}
-            turnRight={vehicle.turnRight}
-            moveForward={vehicle.moveForward}
-            moveBackward={vehicle.moveBackward}
-            forwardKey={vehicle.forwardKey}
-            backwardKey={vehicle.backwardKey}
-            leftKey={vehicle.leftKey}
-            rightKey={vehicle.rightKey}
-          />
-          <PlayerControls vehicle={vehicle} />
-        </Fragment>
-      ))}
+      {isServer ? (
+        <GameServerContextProvider>
+          <ServerComponent/>
+        </GameServerContextProvider>
+      ) : (
+        <GameClientContextProvider>
+           <ClientComponent/>
+        </GameClientContextProvider>
+      )}
+
+      <button onClick={() => setIsServer(true)}>Make me Server</button>
+      {isServer ? <div>I am the Server</div> : <div>I am the client</div>}
     </>
   );
 }

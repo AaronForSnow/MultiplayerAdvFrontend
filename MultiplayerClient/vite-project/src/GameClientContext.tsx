@@ -25,11 +25,11 @@ export interface VehicleContextInterface {
   setVehicleFlags: (setVehicleFlags: VehicleFlags) => void;
 }
 
-export const GameServerContextContext = createContext<VehicleContextInterface>({
+export const GameClientContextContext = createContext<VehicleContextInterface>({
   vehicles: {vehicles:[], type:"PlayerVehicles"},
   setVehicleFlags: () => {},
 });
 
 export const useVehicleContext = () => {
-  return useContext(GameServerContextContext);
+  return useContext(GameClientContextContext);
 };

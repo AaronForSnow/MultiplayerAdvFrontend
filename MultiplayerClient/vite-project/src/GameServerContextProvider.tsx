@@ -44,7 +44,6 @@ export const GameServerContextProvider: FC<{ children: ReactNode }> = ({
       },
     ],
   });
-  const [isServer, setIsServer] = useState<boolean>(false);
   const [socket, setSocket] = useState<WebSocket>();
 
   useEffect(() => {
@@ -56,14 +55,8 @@ export const GameServerContextProvider: FC<{ children: ReactNode }> = ({
 
     ws.onmessage = (event) => {
       const parsedData = JSON.parse(event.data);
-      if (parsedData.type === "playerVehicles") {
-        //For the client (Display)
-        //this should be the list of all vihicles to print on the screan
-        //call set all vehicles in context
-      } else if (parsedData.type === "vehicleFlags") {
-        //In the server (update)
-        //this is a siglevehicles flags
-        // if I am the server, i will update the vehicles in context and send the vehicle list for all to print
+      if (parsedData.type === "vehicleFlags") {
+        console.log("The server is now setting flags");
         setVehicleFlags(parsedData);
       }
     };
@@ -79,14 +72,13 @@ export const GameServerContextProvider: FC<{ children: ReactNode }> = ({
     };
   }, []);
 
-  const sendMessage = () => {
-    if (socket && vehicles) {
-      socket.send(JSON.stringify(vehicles)); // Send message to server
+  const sendMessage = (playerVehicles: VehiclesWithType) => {
+    if (socket && socket.readyState && playerVehicles) {
+      socket.send(JSON.stringify(playerVehicles)); // Send message to server
     }
   };
 
   const setVehicleFlags = (flags: VehicleFlags) => {
-    
     setVehicles((prevVehiles) => {
       const newList: VehiclesWithType = {
         type: "PlayerVehicles",
@@ -141,13 +133,13 @@ export const GameServerContextProvider: FC<{ children: ReactNode }> = ({
           }
         }),
       };
-      return newList
+      return newList;
     });
   };
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      setVehicles((prevVehicle)=> {
+      setVehicles((prevVehicle) => {
         const newList: VehiclesWithType = {
           type: "PlayerVehicles",
           vehicles: prevVehicle.vehicles.map((vehicle) => {
@@ -155,23 +147,21 @@ export const GameServerContextProvider: FC<{ children: ReactNode }> = ({
             return vehicle;
           }),
         };
-        return newList
+        sendMessage(newList);
+        return newList;
       });
-    }, 100);
+    }, 10);
 
     return () => {
       clearInterval(intervalId);
     };
-  }, []);
+  }, [socket]);
 
   return (
     <GameServerContextContext.Provider
       value={{
         vehicles: vehicles,
-        isServer: isServer,
-        setIsServer: setIsServer,
         setVehicleFlags: setVehicleFlags,
-        sendMessage: sendMessage,
       }}
     >
       {children}
